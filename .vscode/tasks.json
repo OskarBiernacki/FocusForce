@@ -1,0 +1,27 @@
+{
+    "tasks": [
+        {
+            "label": "Build C++ Project",
+            "type": "cppbuild",
+            "command": "g++",
+            "args": [
+                "${workspaceFolder}\\main.cpp",
+                "${workspaceFolder}\\AutostartMenager.cpp",
+                "-o",
+                "${workspaceFolder}\\program.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            }
+        }
+    ],
+    "version": "2.0.0"
+}
