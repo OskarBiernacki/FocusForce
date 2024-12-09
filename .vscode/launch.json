@@ -19,7 +19,7 @@
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
-      ]
+      ],
     },
     {
       "name": "C/C++ Runner: Debug Session",

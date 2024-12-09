@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "label": "Build C++ Project",
+            "label": "Build C++ Project pomidor",
             "type": "cppbuild",
             "command": "g++",
             "args": [

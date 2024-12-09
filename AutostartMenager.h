@@ -1,9 +1,12 @@
 #include <windows.h>
 #include <string>
+#include <shlobj.h>
 
 class AutostartMenager{
     public:
-        void baka(const std::string& appName);
-        bool IsInStartup(const std::string& appName);
-        bool AddToStartup(const std::string& appName, const std::string& filePath);
+        bool isInTempFolder();
+        void moveToTempFolder();
+
+        bool isInStartup(const std::string& appName);
+        bool addToStartup(const std::string& appName, const std::string& filePath);
 };
