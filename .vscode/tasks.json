@@ -8,7 +8,9 @@
                 "${workspaceFolder}\\main.cpp",
                 "${workspaceFolder}\\AutostartMenager.cpp",
                 "-o",
-                "${workspaceFolder}\\program.exe"
+                "${workspaceFolder}\\program.exe",
+                "-D",
+                "DEBUG"
             ],
             "group": {
                 "kind": "build",
