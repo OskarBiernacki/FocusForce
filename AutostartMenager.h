@@ -7,6 +7,6 @@ class AutostartMenager{
         bool isInTempFolder(std::string argV0);
         std::string moveToTempFolder();
 
-        bool isInStartup(const std::string& appName);
-        bool addToStartup(const std::string& appName, const std::string& filePath);
+        bool isInStartup();
+        bool addToStartup(const std::string& filePath);
 };

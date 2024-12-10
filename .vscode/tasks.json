@@ -5,10 +5,12 @@
             "type": "cppbuild",
             "command": "g++",
             "args": [
-                "${workspaceFolder}\\main.cpp",
+                "${workspaceFolder}\\CommandServer.cpp",
                 "${workspaceFolder}\\AutostartMenager.cpp",
+                "${workspaceFolder}\\main.cpp",
                 "-o",
                 "${workspaceFolder}\\program.exe",
+                "-lws2_32",
                 "-D",
                 "DEBUG"
             ],

