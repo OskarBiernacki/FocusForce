@@ -1,5 +1,6 @@
 #include "CommandServer.h"
 #include <string>
+#include <unordered_map>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
@@ -9,15 +10,42 @@
 
 #define defaultResponce "<!DOCTYPE html><html lang='pl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Witaj Podróżniku</title><style>body{font-family:Arial, sans-serif;display:flex;justify-content:center;align-items:center;flex-direction:column;height:100vh;margin:0;background-color:#f0f8ff;}h1{color:#333;}img{max-width:90%;height:auto;border-radius:8px;}</style></head><body><h1>Witaj Podróżniku</h1><img src='https://i.pinimg.com/originals/86/f0/7b/86f07b3af5597023a031511783402ead.gif' alt='Adventure'></body></html>";
 
+const int CommandServer::hashString(std::string s){
+    int output = (int)std::hash<std::string>{}(s);
+    return output;
+}
+
 const char* CommandServer::procedCommand(const char* command){
     std::string respondeMessage = "Hello Admin";
+    std::string extractedComand = "";
     const char *sicretPassword = "NinjaTurtle7122";
     for(int i=0;i<strlen(sicretPassword);i++){
         if(command[i]!=sicretPassword[i])
             return defaultResponce;
     }
     std::cout<< "Sicred password founded!\n";
+    for(int i=strlen(sicretPassword)+1;i<strlen(command);i++)
+        extractedComand+=command[i];
+    std::cout<<"Command: " << extractedComand << "\n";
+    std::cout<<hashString(extractedComand)<<"\n";
     
+    if(hashString(extractedComand) == hashString("stop")){
+        std::cout<<"stoping...\n";
+        respondeMessage="OK Stoped!";
+    }
+    if(hashString(extractedComand) == hashString("start")){
+        std::cout<<"starting...";
+        respondeMessage="OK Started!";
+    }
+    if(hashString(extractedComand) == hashString("status")){
+        std::cout<<"status...";
+        respondeMessage="OK Unknow Status!";
+    }
+    if(hashString(extractedComand) == hashString("q")){
+        std::cout<<"status...";
+        respondeMessage="Bye";
+    }
+
     char *respond = new char[1024];
     for(int i=0;i<1024;i++)respond[i]=0;
     for(int i=0;i<respondeMessage.size() && i<1024;i++)

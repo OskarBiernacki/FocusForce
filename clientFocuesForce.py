@@ -1,25 +1,33 @@
 import socket
 
-def tcp_client(server_ip, server_port):
+# Defoult - Hello Admin
+# stop 
+# start
+# status
+
+def tcp_client(server_ip, server_port, command=""):
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print(f"Łączenie z serwerem {server_ip}:{server_port}...")
         client_socket.connect((server_ip, server_port))
-        print("Połączono z serwerem.")
-        message = "NinjaTurtle7122 stop"
+        message = f"NinjaTurtle7122 {command}"
         client_socket.sendall(message.encode('utf-8'))
         response = client_socket.recv(1024)
-        print(f"responce: {response.decode('utf-8')}")
+        #print(f"responce: {response.decode('utf-8')}")
+        return response.decode('utf-8')
 
     except ConnectionRefusedError:
         print("Connection ERRO!")
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        # Zamknięcie połączenia
         client_socket.close()
-        print("Połączenie zamknięte.")
 
-# Przykład użycia klienta
 if __name__ == "__main__":
-    tcp_client("127.0.0.1", 80)
+    ip="127.0.0.1"
+    resp=tcp_client(ip, 80)
+    if resp=='Hello Admin':
+        print('FocuseForce founded!')
+        inp=None
+        while inp!='q':
+            inp=input(f"FocuseForce@{ip}> ")
+            print(tcp_client(ip, 80, inp))
