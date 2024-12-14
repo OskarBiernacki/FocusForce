@@ -7,22 +7,25 @@
             "args": [
                 "${workspaceFolder}\\CommandServer.cpp",
                 "${workspaceFolder}\\AutostartMenager.cpp",
+                "${workspaceFolder}\\ProcessMenager.cpp",
                 "${workspaceFolder}\\main.cpp",
                 "-o",
                 "${workspaceFolder}\\program.exe",
                 "-lws2_32",
+                "-lpsapi",
                 "-D",
                 "DEBUG"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": ["$gcc"],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
             "options": {
                 "shell": {
                     "executable": "cmd.exe",
-                    "args": ["/c"]
+                    "args": [
+                        "/c"
+                    ]
                 }
             }
         }

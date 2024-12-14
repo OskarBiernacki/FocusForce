@@ -109,6 +109,8 @@
     "text_encoding": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp",
-    "cstring": "cpp"
+    "cstring": "cpp",
+    "fstream": "cpp",
+    "sstream": "cpp"
   }
 }

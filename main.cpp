@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "CommandServer.h"
 #include "AutostartMenager.h"
 #include <cstdlib>
+#include "ProcessMenager.h"
 
 using namespace std;
 
@@ -39,11 +41,25 @@ int main(int argc, char** argv) {
             return 0;
         }
         cout << "in Temp!\n";
-    #endif
 
     CommandServer c;
     c.startTCPListener(80);
+    #endif
 
+    ProcessMenager pm;
+    auto processes = pm.getRunningProcesses();
 
+    std::cout << "Process list:" << std::endl;
+    for (const auto& process : processes) {
+        std::cout << "Proces: " << process.first << ", Memory: " << process.second << " MB" << std::endl;
+    }
+
+    vector<string> blackList;
+    blackList.push_back("notepad.exe");
+
+    pm.killBlacklistedProcess(blackList);
+
+    int a;
+    cin >> a;
     return 0;
 } 
