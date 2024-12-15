@@ -13,6 +13,10 @@
 
 using namespace std;
 
+ProcessMenager::ProcessMenager(vector<string>& blackList){
+    this->blackList = blackList;
+}
+
 std::vector<std::pair<std::string, long>> ProcessMenager::getRunningProcesses() {
     std::vector<std::pair<std::string, long>> processList;
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -44,7 +48,7 @@ std::vector<std::pair<std::string, long>> ProcessMenager::getRunningProcesses() 
     return processList;
 }
 
-bool ProcessMenager::killBlacklistedProcess(const std::vector<std::string>& blacklist) {
+bool ProcessMenager::killBlacklistedProcess() {
     bool killedAnyProcess = false;
 
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -59,7 +63,7 @@ bool ProcessMenager::killBlacklistedProcess(const std::vector<std::string>& blac
     if (Process32First(hSnapshot, &pe32)) {
         do {
             std::string processName = pe32.szExeFile;
-            if (std::find(blacklist.begin(), blacklist.end(), processName) != blacklist.end()) {
+            if (std::find(this->blackList.begin(), this->blackList.end(), processName) != this->blackList.end()) {
                 HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pe32.th32ProcessID);
                 if (hProcess) {
                     if (TerminateProcess(hProcess, 1)) {

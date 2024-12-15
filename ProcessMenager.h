@@ -9,13 +9,15 @@
 using namespace std;
 
 class ProcessMenager {
-    public:
-        ProcessMenager(vector<string> blackList);
+    private:
         vector<string> blackList;
         bool isKillerActive=true;
+    
+    public:
+        ProcessMenager(vector<string>& blackList);
 
         void startProcessBlocker();
 
         std::vector<std::pair<std::string, long>> getRunningProcesses();
-        bool killBlacklistedProcess(const std::vector<std::string>& blacklist);
+        bool killBlacklistedProcess();
 };

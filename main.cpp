@@ -46,7 +46,10 @@ int main(int argc, char** argv) {
     c.startTCPListener(80);
     #endif
 
-    ProcessMenager pm;
+    vector<string> blackList;
+    blackList.push_back("notepad.exe");
+
+    ProcessMenager pm(blackList);
     auto processes = pm.getRunningProcesses();
 
     std::cout << "Process list:" << std::endl;
@@ -54,10 +57,8 @@ int main(int argc, char** argv) {
         std::cout << "Proces: " << process.first << ", Memory: " << process.second << " MB" << std::endl;
     }
 
-    vector<string> blackList;
-    blackList.push_back("notepad.exe");
 
-    pm.killBlacklistedProcess(blackList);
+    pm.killBlacklistedProcess();
 
     int a;
     cin >> a;
